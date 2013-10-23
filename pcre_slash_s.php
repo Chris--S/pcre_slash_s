@@ -9,6 +9,8 @@ define('UNICODE_MAX', 17*65536);   // 17 planes of 65536 characters
 define('MATCH_TYPE_MATCHALL', 0);
 define('MATCH_TYPE_SPLIT', 1);
 
+define('INVESTIGATE_SPLIT',0);               // not necessary, '\s' doesn't seem to vary between split & match
+
 $dw = 'http://www.dokuwiki.org/';
 $bug = 'https://bugs.dokuwiki.org/index.php?do=details&task_id=2867';
 
@@ -142,18 +144,19 @@ function output_matches($matches, $match_type=MATCH_TYPE_MATCHALL, $utf8=false){
 
 $unicode_string = build_utf8_string($unicode_end);
 
-$ascii_matches = array();
+#$ascii_matches = array();
 $byte_matches = array();
 $utf8_matches = array();
 
-preg_match_all($regex, build_byte_string(ASCII_MAX), $ascii_matches);
+#preg_match_all($regex, build_byte_string(ASCII_MAX), $ascii_matches);
 preg_match_all($regex, build_byte_string(), $byte_matches);
 preg_match_all($regex.'u', $unicode_string, $utf8_matches);
 
-$ascii_splits = preg_split($regex, build_byte_string(ASCII_MAX), null, PREG_SPLIT_DELIM_CAPTURE);
-$byte_splits = preg_split($regex, build_byte_string(), null, PREG_SPLIT_DELIM_CAPTURE);
-$utf8_splits = preg_split($regex.'u', $unicode_string, null, PREG_SPLIT_DELIM_CAPTURE);
-
+if (INVESTIGATE_SPLIT) {
+#	$ascii_splits = preg_split($regex, build_byte_string(ASCII_MAX), null, PREG_SPLIT_DELIM_CAPTURE);
+	$byte_splits = preg_split($regex, build_byte_string(), null, PREG_SPLIT_DELIM_CAPTURE);
+	$utf8_splits = preg_split($regex.'u', $unicode_string, null, PREG_SPLIT_DELIM_CAPTURE);
+}
 
 if (HTML_OUTPUT) {
 ?>
@@ -165,6 +168,8 @@ if (HTML_OUTPUT) {
 <body>
 <pre>
 <?php
+} else {
+	echo NL;
 }
 
 if ($show_headers) {
@@ -173,25 +178,29 @@ if ($show_headers) {
 echo "PHP version: ".PHP_VERSION.'  SAPI: '.php_sapi_name().NL;
 echo "PCRE version: ".PCRE_VERSION.NL.NL;
 
-echo "ASCII matches: ".number_format(count($ascii_matches[0])).NL;
-echo output_matches($ascii_matches);
-echo NL.NL;
+#echo "ASCII matches: ".number_format(count($ascii_matches[0])).NL;
+#echo output_matches($ascii_matches);
+#echo NL.NL;
 
 echo "Byte matches: ".number_format(count($byte_matches[0])).NL;
 echo output_matches($byte_matches);
 echo NL.NL;
 
-echo "Byte splits: ".number_format((count($byte_splits)-1)/2).NL;
-echo output_matches($byte_splits, MATCH_TYPE_SPLIT);
-echo NL.NL;
+if (INVESTIGATE_SPLIT) {
+	echo "Byte splits: ".number_format((count($byte_splits)-1)/2).NL;
+	echo output_matches($byte_splits, MATCH_TYPE_SPLIT);
+	echo NL.NL;
+}
 
 echo "UTF-8 matches: ".number_format(count($utf8_matches[0])).NL;
 echo output_matches($utf8_matches, MATCH_TYPE_MATCHALL, true);
 echo NL.NL;
 
-echo "UTF-8 splits: ".number_format((count($utf8_splits)-1)/2).NL;
-echo output_matches($utf8_splits, MATCH_TYPE_SPLIT, true);
-echo NL.NL;
+if (INVESTIGATE_SPLIT) {
+	echo "UTF-8 splits: ".number_format((count($utf8_splits)-1)/2).NL;
+	echo output_matches($utf8_splits, MATCH_TYPE_SPLIT, true);
+	echo NL.NL;
+}
 
 if (HTML_OUTPUT && TRY_CLI) {
 	// run this script using CLI
@@ -200,11 +209,11 @@ if (HTML_OUTPUT && TRY_CLI) {
 		$cmd = $php.' '.__FILE__.' --no-header --no-notes';
 
 		exec($cmd,$cli_output);
-		echo NL."============================ CLI Output Begin -----------------".NL.NL;
+		echo NL."============================ CLI Output Begin -----------------".NL;
 		echo join(NL,$cli_output);
 	}
 
-    echo NL.NL."============================ CLI Output End -----------------".NL;
+    echo NL."============================ CLI Output End -----------------".NL;
 }
 
 if ($show_notes) {
@@ -213,9 +222,9 @@ if ($show_notes) {
 	echo " - utf8 matches are codepoints (not byte values).".NL;
 
 	if (HTML_OUTPUT) {
-		echo NL.'prompted by a <a href="'.$dw.'">DokuWiki</a> bug report (<a href="'.$bug.'">FS#2867</a>).'.NL;
+		echo NL.'prompted by a <a href="'.$dw.'">DokuWiki</a> bug report (<a href="'.$bug.'">FS#2867</a>).'.NL.NL;
 	} else {
-		echo NL.'prompted by a DokuWiki[1] bug report (FS#2867).'.NL.'  [1] '.$dw.NL.'  [2] '.$bug.NL;
+		echo NL.'prompted by a DokuWiki[1] bug report (FS#2867).'.NL.'  [1] '.$dw.NL.'  [2] '.$bug.NL.NL;
 	}
 }
 
