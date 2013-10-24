@@ -14,7 +14,6 @@ define('INVESTIGATE_SPLIT',0);               // not necessary, '\s' doesn't seem
 $dw = 'http://www.dokuwiki.org/';
 $bug = 'https://bugs.dokuwiki.org/index.php?do=details&task_id=2867';
 
-$str = 'foo'.chr(192).chr(160).'bar';
 $regex = '/(\s)/';
 $unicode_end = 16383;              // no need to go beyond one plane
 mb_internal_encoding("UTF-8");
