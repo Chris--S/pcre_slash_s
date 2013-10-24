@@ -22,6 +22,7 @@ $phpcli = array('php');
 
 $show_headers = true;
 $show_notes = true;
+$html_colors = HTML_OUTPUT;
 
 if (!HTML_OUTPUT) {
 	// check for command line parameters
@@ -29,9 +30,24 @@ if (!HTML_OUTPUT) {
 		switch ($opt){
 			case '--no-notes' : $show_notes = false; break;
 			case '--no-header' : $show_headers = false; break;
+			case '--html-colors' : $html_colors = true; break;
 		}
 	}
 }
+
+// pretty colours
+global $expected, $unexpected, $close;
+if ($html_colors) {
+	$expected = '<span class="expected">';
+	$unexpected = '<span class="unexpected">';
+	$close = '</span>';
+} else {
+	$windows = preg_match('/win/i',PHP_OS);
+	$expected = !windows ? "\033[32m" : "";
+	$unexpected = !windows ? "\033[31m" : "";
+	$close = !windows ? "\033[0m" : "";
+}
+
 
 function build_byte_string($max=255){
   $max = min(max(1,$max),255);     // keep within one byte
@@ -119,6 +135,8 @@ function build_utf8_string($max){
 }
 
 function output_matches($matches, $match_type=MATCH_TYPE_MATCHALL, $utf8=false){
+	global $expected, $unexpected, $close;
+
 	$output = '';
 	$line = 0;
 
@@ -135,7 +153,8 @@ function output_matches($matches, $match_type=MATCH_TYPE_MATCHALL, $utf8=false){
 			$output .= "\n";
 			$line = 1;
 		}
-		$output .= $utf8 ? 'U+'.sprintf("%04x",utf8_ord($match)).' ' : sprintf("%02x",ord($match)).' ';
+		$color = ($utf8 || (ord($match) <= ord(' '))) ? $expected : $unexpected;
+		$output .= $color.($utf8 ? 'U+'.sprintf("%04x",utf8_ord($match)).' ' : sprintf("%02x",ord($match)).' ').$close;
 	}
 
 	return $output;
@@ -163,6 +182,19 @@ if (HTML_OUTPUT) {
 <html lang="en-us">
 <head>
 <meta charset="utf-8">
+<style type="text/css">
+body {
+  font-family: monospace;
+}
+.expected {
+	color: #009900;
+	font-weight: bold;
+}
+.unexpected {
+	color: #cc0000;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 <pre>
@@ -172,10 +204,13 @@ if (HTML_OUTPUT) {
 }
 
 if ($show_headers) {
-	echo "Test to determine which characters are matched by the '\\s' character class in PHP regex functions.".NL.NL;
+	echo "Test to determine which characters are matched by the '\\s' character class in PHP regex functions.".NL;
+	echo "Results key: ".$expected."OK".$close." ".$unexpected."YIKES!".$close.NL;
+	echo NL;
 }
 echo "PHP version: ".PHP_VERSION.'  SAPI: '.php_sapi_name().NL;
-echo "PCRE version: ".PCRE_VERSION.NL.NL;
+echo "PCRE version: ".PCRE_VERSION.NL;
+echo NL;
 
 #echo "ASCII matches: ".number_format(count($ascii_matches[0])).NL;
 #echo output_matches($ascii_matches);
@@ -205,7 +240,7 @@ if (HTML_OUTPUT && TRY_CLI) {
 	// run this script using CLI
 	foreach ($phpcli as $php){
 		$cli_output = array();
-		$cmd = $php.' '.__FILE__.' --no-header --no-notes';
+		$cmd = $php.' '.__FILE__.' --no-header --no-notes --html-colors';
 
 		exec($cmd,$cli_output);
 		echo NL."============================ CLI Output Begin -----------------".NL;
