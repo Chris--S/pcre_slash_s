@@ -1,0 +1,24 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0033)http://localhost/pcre_slash_s.php -->
+<!DOCTYPE html PUBLIC "" ""><HTML lang="en-us"><HEAD><META content="IE=10.000" 
+http-equiv="X-UA-Compatible">
+ 
+<META charset="utf-8"> 
+<STYLE type="text/css">
+body {
+  font-family: monospace;
+}
+.expected {
+	color: #009900;
+	font-weight: bold;
+}
+.unexpected {
+	color: #cc0000;
+	font-weight: bold;
+}
+</STYLE>
+ 
+<META name="GENERATOR" content="MSHTML 10.00.9200.16660"></HEAD> 
+<BODY>
+<PRE>Test to determine which characters are matched by the '\s' character class in PHP regex functions.<BR>Results key: <SPAN class="expected">OK</SPAN> <SPAN class="unexpected">YIKES!</SPAN><BR><BR>PHP version: 5.5.3  SAPI: apache2handler<BR>PCRE version: 8.32 2012-11-30<BR>PHP OS: WINNT<BR><BR>Byte matches: 5<BR><SPAN class="expected">09 </SPAN><SPAN class="expected">0a </SPAN><SPAN class="expected">0c </SPAN><SPAN class="expected">0d </SPAN><SPAN class="expected">20 </SPAN><BR><BR>UTF-8 matches: 24<BR><SPAN class="expected">U+0009 </SPAN><SPAN class="expected">U+000a </SPAN><SPAN class="expected">U+000c </SPAN><SPAN class="expected">U+000d </SPAN><SPAN class="expected">U+0020 </SPAN><SPAN class="expected">U+00a0 </SPAN><SPAN class="expected">U+1680 </SPAN><SPAN class="expected">U+180e </SPAN><SPAN class="expected">U+2000 </SPAN><SPAN class="expected">U+2001 </SPAN><SPAN class="expected">U+2002 </SPAN><SPAN class="expected">U+2003 </SPAN>
+<SPAN class="expected">U+2004 </SPAN><SPAN class="expected">U+2005 </SPAN><SPAN class="expected">U+2006 </SPAN><SPAN class="expected">U+2007 </SPAN><SPAN class="expected">U+2008 </SPAN><SPAN class="expected">U+2009 </SPAN><SPAN class="expected">U+200a </SPAN><SPAN class="expected">U+2028 </SPAN><SPAN class="expected">U+2029 </SPAN><SPAN class="expected">U+202f </SPAN><SPAN class="expected">U+205f </SPAN><SPAN class="expected">U+3000 </SPAN><BR><BR><BR>============================ CLI Output Begin -----------------<BR><BR>PHP version: 5.5.3  SAPI: cli<BR>PCRE version: 8.32 2012-11-30<BR>PHP OS: WINNT<BR><BR>Byte matches: 6<BR><SPAN class="expected">09 </SPAN><SPAN class="expected">0a </SPAN><SPAN class="expected">0c </SPAN><SPAN class="expected">0d </SPAN><SPAN class="expected">20 </SPAN><SPAN class="unexpected">a0 </SPAN><BR><BR>UTF-8 matches: 24<BR><SPAN class="expected">U+0009 </SPAN><SPAN class="expected">U+000a </SPAN><SPAN class="expected">U+000c </SPAN><SPAN class="expected">U+000d </SPAN><SPAN class="expected">U+0020 </SPAN><SPAN class="expected">U+00a0 </SPAN><SPAN class="expected">U+1680 </SPAN><SPAN class="expected">U+180e </SPAN><SPAN class="expected">U+2000 </SPAN><SPAN class="expected">U+2001 </SPAN><SPAN class="expected">U+2002 </SPAN><SPAN class="expected">U+2003 </SPAN><BR><SPAN class="expected">U+2004 </SPAN><SPAN class="expected">U+2005 </SPAN><SPAN class="expected">U+2006 </SPAN><SPAN class="expected">U+2007 </SPAN><SPAN class="expected">U+2008 </SPAN><SPAN class="expected">U+2009 </SPAN><SPAN class="expected">U+200a </SPAN><SPAN class="expected">U+2028 </SPAN><SPAN class="expected">U+2029 </SPAN><SPAN class="expected">U+202f </SPAN><SPAN class="expected">U+205f </SPAN><SPAN class="expected">U+3000 </SPAN><BR><BR>============================ CLI Output End -----------------<BR>Notes:<BR> - match values are in hexadecimal.<BR> - utf8 matches are codepoints (not byte values).<BR><BR>prompted by a <A href="http://www.dokuwiki.org/">DokuWiki</A> bug report (<A href="https://bugs.dokuwiki.org/index.php?do=details&amp;task_id=2867">FS#2867</A>).<BR><BR></PRE></BODY></HTML>

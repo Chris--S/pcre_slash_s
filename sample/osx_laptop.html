@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)http://localhost/~jalakai/preg/pcre_slash_s.php -->
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<style type="text/css">
+body {
+  font-family: monospace;
+}
+.expected {
+	color: #009900;
+	font-weight: bold;
+}
+.unexpected {
+	color: #cc0000;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+<pre>Test to determine which characters are matched by the '\s' character class in PHP regex functions.<br>Results key: <span class="expected">OK</span> <span class="unexpected">YIKES!</span><br><br>PHP version: 5.5.5  SAPI: cgi-fcgi<br>PCRE version: 8.33 2013-05-28<br><br>Byte matches: 5<br><span class="expected">09 </span><span class="expected">0a </span><span class="expected">0c </span><span class="expected">0d </span><span class="expected">20 </span><br><br>UTF-8 matches: 24<br><span class="expected">U+0009 </span><span class="expected">U+000a </span><span class="expected">U+000c </span><span class="expected">U+000d </span><span class="expected">U+0020 </span><span class="expected">U+00a0 </span><span class="expected">U+1680 </span><span class="expected">U+180e </span><span class="expected">U+2000 </span><span class="expected">U+2001 </span><span class="expected">U+2002 </span><span class="expected">U+2003 </span>
+<span class="expected">U+2004 </span><span class="expected">U+2005 </span><span class="expected">U+2006 </span><span class="expected">U+2007 </span><span class="expected">U+2008 </span><span class="expected">U+2009 </span><span class="expected">U+200a </span><span class="expected">U+2028 </span><span class="expected">U+2029 </span><span class="expected">U+202f </span><span class="expected">U+205f </span><span class="expected">U+3000 </span><br><br><br>============================ CLI Output Begin -----------------<br><br>PHP version: 5.5.5  SAPI: cli<br>PCRE version: 8.33 2013-05-28<br><br>Byte matches: 5<br><span class="expected">09 </span><span class="expected">0a </span><span class="expected">0c </span><span class="expected">0d </span><span class="expected">20 </span><br><br>UTF-8 matches: 24<br><span class="expected">U+0009 </span><span class="expected">U+000a </span><span class="expected">U+000c </span><span class="expected">U+000d </span><span class="expected">U+0020 </span><span class="expected">U+00a0 </span><span class="expected">U+1680 </span><span class="expected">U+180e </span><span class="expected">U+2000 </span><span class="expected">U+2001 </span><span class="expected">U+2002 </span><span class="expected">U+2003 </span><br><span class="expected">U+2004 </span><span class="expected">U+2005 </span><span class="expected">U+2006 </span><span class="expected">U+2007 </span><span class="expected">U+2008 </span><span class="expected">U+2009 </span><span class="expected">U+200a </span><span class="expected">U+2028 </span><span class="expected">U+2029 </span><span class="expected">U+202f </span><span class="expected">U+205f </span><span class="expected">U+3000 </span><br><br>============================ CLI Output Begin -----------------<br><br>PHP version: 5.3.26  SAPI: cli<br>PCRE version: 8.02 2010-03-19<br><br>Byte matches: 5<br><span class="expected">09 </span><span class="expected">0a </span><span class="expected">0c </span><span class="expected">0d </span><span class="expected">20 </span><br><br>UTF-8 matches: 5<br><span class="expected">U+0009 </span><span class="expected">U+000a </span><span class="expected">U+000c </span><span class="expected">U+000d </span><span class="expected">U+0020 </span><br><br>============================ CLI Output End -----------------<br>Notes:<br> - match values are in hexadecimal.<br> - utf8 matches are codepoints (not byte values).<br><br>prompted by a <a href="http://www.dokuwiki.org/">DokuWiki</a> bug report (<a href="https://bugs.dokuwiki.org/index.php?do=details&task_id=2867">FS#2867</a>).<br><br></pre>
+
+
+</body></html>

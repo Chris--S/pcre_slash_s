@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+body {
+  font-family: monospace;
+}
+.expected {
+	color: #009900;
+	font-weight: bold;
+}
+.unexpected {
+	color: #cc0000;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+<pre>
+Test to determine which characters are matched by the '\s' character class in PHP regex functions.
+Results key: <span class="expected">OK</span> <span class="unexpected">YIKES!</span>
+
+PHP version: 5.5.5  SAPI: cli
+PCRE version: 8.33 2013-05-28
+
+Byte matches: 7
+<span class="expected">09 </span><span class="expected">0a </span><span class="expected">0c </span><span class="expected">0d </span><span class="expected">20 </span><span class="unexpected">85 </span><span class="unexpected">a0 </span>
+
+UTF-8 matches: 24
+<span class="expected">U+0009 </span><span class="expected">U+000a </span><span class="expected">U+000c </span><span class="expected">U+000d </span><span class="expected">U+0020 </span><span class="expected">U+00a0 </span><span class="expected">U+1680 </span><span class="expected">U+180e </span><span class="expected">U+2000 </span><span class="expected">U+2001 </span><span class="expected">U+2002 </span><span class="expected">U+2003 </span>
+<span class="expected">U+2004 </span><span class="expected">U+2005 </span><span class="expected">U+2006 </span><span class="expected">U+2007 </span><span class="expected">U+2008 </span><span class="expected">U+2009 </span><span class="expected">U+200a </span><span class="expected">U+2028 </span><span class="expected">U+2029 </span><span class="expected">U+202f </span><span class="expected">U+205f </span><span class="expected">U+3000 </span>
+
+Notes:
+ - match values are in hexadecimal.
+ - utf8 matches are codepoints (not byte values).
+
+prompted by a <a href="http://www.dokuwiki.org/">DokuWiki</a> bug report (<a href="https://bugs.dokuwiki.org/index.php?do=details&task_id=2867">FS#2867</a>).
+
+</pre>
+</body>
+</html>
