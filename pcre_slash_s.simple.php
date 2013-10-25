@@ -1,4 +1,13 @@
 <?php
+/**
+ * TODO:
+ * - add LICENSE (LGPL)
+ * - add README
+ *
+ * @author   Chris Smith <chris@jalakai.co.uk>
+ * @date     2013-10-25
+ */
+
 define('HTML',(php_sapi_name()!='cli'));
 define('NL',"\n");
 define('TRY_CLI',true);

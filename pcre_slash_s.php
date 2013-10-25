@@ -1,4 +1,12 @@
 <?php
+/**
+ * TODO:
+ * - add LICENSE (LGPL)
+ * - add README
+ *
+ * @author   Chris Smith <chris@jalakai.co.uk>
+ * @date     2013-10-25
+ */
 
 define('HTML_OUTPUT', php_sapi_name() != 'cli');
 define('TRY_CLI',true);
@@ -50,7 +58,6 @@ if ($colors) {
 		$close = '</span>';
 	} else {
 		// windows doesn't support console colors, *nix does
-		echo PHP_OS.NL;
 		if (!preg_match('/(?<!dar)win/i',PHP_OS)) {
 			$expected = "\033[32m";
 			$unexpected = "\033[31m";
@@ -72,6 +79,7 @@ function utf8_chr($unicode) {
 	return ($unicode < 128) ? chr($unicode) : html_entity_decode('&#'.$unicode.';',ENT_NOQUOTES,'UTF-8');
 }
 
+// code from https://github.com/FSX/php-utf8/blob/master/functions/ord.php
 function utf8_ord($chr)
 {
         $ord0 = ord($chr);
