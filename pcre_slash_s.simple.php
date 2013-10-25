@@ -8,6 +8,7 @@ define('PHPCLI','php55');
 $show_notes = true;
 $show_headers = true;
 $html_colors = HTML;
+$colors = true;
 
 // check for command line parameters
 if (!HTML) {
@@ -16,18 +17,26 @@ if (!HTML) {
 			case '--no-notes' : $show_notes = false; break;
 			case '--no-header' : $show_headers = false; break;
 			case '--html-colors' : $html_colors = true; break;
+			case '--no-colors' : $colors = false; break;
 		}
 	}
 }
-if ($html_colors) {
-	$expected = '<span class="expected">';
-	$unexpected = '<span class="unexpected">';
-	$close = '</span>';
-} else {
-	$windows = preg_match('/win/i',PHP_OS);
-	$expected = !windows ? "\033[32m" : "";
-	$unexpected = !windows ? "\033[31m" : "";
-	$close = !windows ? "\033[0m" : "";
+// pretty colours
+global $expected, $unexpected, $close;
+$expected = $unexpected = $close = '';
+if ($colors) {
+	if ($html_colors) {
+		$expected = '<span class="expected">';
+		$unexpected = '<span class="unexpected">';
+		$close = '</span>';
+	} else {
+		// windows doesn't support console colors, *nix does
+		if (!preg_match('/(?<!dar)win/i',PHP_OS)) {
+			$expected = "\033[32m";
+			$unexpected = "\033[31m";
+			$close = "\033[0m";
+		}
+	}
 }
 
 if (HTML) { 

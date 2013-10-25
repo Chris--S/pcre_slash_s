@@ -20,9 +20,12 @@ mb_internal_encoding("UTF-8");
 
 $phpcli = array('php');
 
+// flags to control what to show
 $show_headers = true;
 $show_notes = true;
 $html_colors = HTML_OUTPUT;
+$html = HTML_OUTPUT;
+$colors = true;
 
 if (!HTML_OUTPUT) {
 	// check for command line parameters
@@ -31,23 +34,30 @@ if (!HTML_OUTPUT) {
 			case '--no-notes' : $show_notes = false; break;
 			case '--no-header' : $show_headers = false; break;
 			case '--html-colors' : $html_colors = true; break;
+			case '--html' : $html = $html_colors = true; break;
+			case '--no-colors' : $colors = false; break;
 		}
 	}
 }
 
 // pretty colours
 global $expected, $unexpected, $close;
-if ($html_colors) {
-	$expected = '<span class="expected">';
-	$unexpected = '<span class="unexpected">';
-	$close = '</span>';
-} else {
-	$windows = preg_match('/win/i',PHP_OS);
-	$expected = !windows ? "\033[32m" : "";
-	$unexpected = !windows ? "\033[31m" : "";
-	$close = !windows ? "\033[0m" : "";
+$expected = $unexpected = $close = '';
+if ($colors) {
+	if ($html_colors) {
+		$expected = '<span class="expected">';
+		$unexpected = '<span class="unexpected">';
+		$close = '</span>';
+	} else {
+		// windows doesn't support console colors, *nix does
+		echo PHP_OS.NL;
+		if (!preg_match('/(?<!dar)win/i',PHP_OS)) {
+			$expected = "\033[32m";
+			$unexpected = "\033[31m";
+			$close = "\033[0m";
+		}
+	}
 }
-
 
 function build_byte_string($max=255){
   $max = min(max(1,$max),255);     // keep within one byte
@@ -176,7 +186,7 @@ if (INVESTIGATE_SPLIT) {
 	$utf8_splits = preg_split($regex.'u', $unicode_string, null, PREG_SPLIT_DELIM_CAPTURE);
 }
 
-if (HTML_OUTPUT) {
+if ($html) {
 ?>
 <!DOCTYPE html>
 <html lang="en-us">
@@ -255,14 +265,14 @@ if ($show_notes) {
 	echo " - match values are in hexadecimal.".NL;
 	echo " - utf8 matches are codepoints (not byte values).".NL;
 
-	if (HTML_OUTPUT) {
+	if ($html) {
 		echo NL.'prompted by a <a href="'.$dw.'">DokuWiki</a> bug report (<a href="'.$bug.'">FS#2867</a>).'.NL.NL;
 	} else {
 		echo NL.'prompted by a DokuWiki[1] bug report (FS#2867).'.NL.'  [1] '.$dw.NL.'  [2] '.$bug.NL.NL;
 	}
 }
 
-if (HTML_OUTPUT) {
+if ($html) {
 ?>
 </pre>
 </body>
